@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LineChart : Chart 
 {
+	public GameObject lineChartPrefab;
 
 	public float pointSpacing 
 	{

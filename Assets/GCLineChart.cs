@@ -10,7 +10,7 @@ public class GCLineChart : LineChart
 	public int updateSkipDivider = 3;
 
 	public float yAxisCenter = 5f;
-	public float xAxisSpacing = 0.1f;
+	public float xAxisSpacing = 0.01f;
 
 	protected const int k_SampleCount = 100;	
 
@@ -23,8 +23,7 @@ public class GCLineChart : LineChart
 
 	protected override void Start () 
 	{
-		DrawXAxis();
-		DrawYAxis();
+		GameObject.Instantiate(lineChartPrefab, gameObject.transform);
 
 		m_LineRenderer = NewLine();
 		m_LineRenderer.startColor = colors[0];
@@ -48,7 +47,6 @@ public class GCLineChart : LineChart
 	{
 		if(updateCount % updateSkipDivider == 0)
 		{
-			//Array.Clear(m_PositionShiftCache, 0, m_PositionShiftCache.Length);
 			m_LineRenderer.GetPositions(m_Positions);
 
 			for(int i = 0; i < m_Positions.Length - 1; i++)
@@ -77,8 +75,8 @@ public class GCLineChart : LineChart
 	// for now we assume 1 billion bytes = top of the graph = 10f height
 	Vector3 BytesToChartPosition(long byteCount, Vector3 previous)
 	{
-		//Debug.Log("bytes: " + byteCount);
-		float y = byteCount / 1000f / 1000f;
+		// dividing by 10 is a temp hack, need to get scaling working right
+		float y = byteCount / 1000f / 1000f / 10f;
 		return new Vector3(previous.x, y, previous.z);
 	}
 }
